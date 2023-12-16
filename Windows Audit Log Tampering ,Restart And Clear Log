@@ -1,0 +1,76 @@
+<form theme="dark">
+  <label>Windows Audit Log Tampering ,Restart And Clear Log</label>
+  <description>Event Code 1100: The event logging service has shut down.
+
+With this event, you can track system shutdowns and restarts.
+
+This event also can be a sign of malicious action when someone tried to shut down the Log Service to cover his or her activity.</description>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Clear log Event Code 1102</title>
+      <table>
+        <search>
+          <query>index=windows (sourcetype=wineventlog AND (EventCode=1102 )) 
+| stats count by _time EventCode Message sourcetype host</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Event Code 104</title>
+      <table>
+        <search>
+          <query>index=windows  host!="WIN-D74Q24OPQSO"  (sourcetype=wineventlog AND EventCode=104) 
+| stats count by _time EventCode Message sourcetype host</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Event Code 104</title>
+      <table>
+        <title>Event Code 104</title>
+        <search>
+          <query>(sourcetype=wineventlog AND EventCode=104)
+| stats count by _time EventCode Message sourcetype host</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>System Shutdowns and restarts  Event Code 1100</title>
+      <table>
+        <search>
+          <query>index=windows (sourcetype=wineventlog AND (EventCode=1100 ))
+| stats count by _time EventCode Message sourcetype host</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

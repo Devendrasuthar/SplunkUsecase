@@ -1,0 +1,64 @@
+<form theme="dark">
+  <label>PetitPotam NTLM Relay Attack Detection</label>
+  <fieldset submitButton="false">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <chart>
+        <search>
+          <query>index=windows EventCode=5145  "0x3" AND  "IPC$" AND  ("lsarpc" OR"efsrpc" OR"lsass" OR "samr" OR "netlogon") AND ("ReadData" OR "WriteData" OR "AddFile")</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <event>
+        <search>
+          <query>index=windows EventCode=5145  "0x3" AND  "IPC$" AND  ("lsarpc" OR"efsrpc" OR"lsass" OR "samr" OR "netlogon")</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="list.drilldown">none</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>EventCode=5145  0x3</title>
+      <chart>
+        <search>
+          <query>index=windows EventCode=5145  "0x3" AND  "IPC$" AND  ("lsarpc" OR"efsrpc" OR"lsass" OR "samr" OR "netlogon")</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+
+    <panel>
+      <title>NTLM V2  Elevated Token</title>
+      <event>
+        <search>
+          <query>index=windows EventCode=4624 "NTLM V2"  Elevated_Token=Yes "Workstation Name:	-"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="list.drilldown">none</option>
+      </event>
+    </panel>
+  </row>
+</form>

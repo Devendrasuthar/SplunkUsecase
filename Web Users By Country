@@ -1,0 +1,44 @@
+<form theme="dark">
+  <label>Web Users By Country</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <map>
+        <title>Web Users By Country FG-I</title>
+        <search>
+          <query>index=fg-i
+| iplocation srcip
+| geostats dc(srcip) by srccountry</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="mapping.type">marker</option>
+      </map>
+    </panel>
+  </row>
+    <row>
+    <panel>
+      <map>
+        <title>Web Users By Country FortiWeb</title>
+        <search>
+          <query>index=fortiweb
+| iplocation src
+| geostats dc(src) by srccountry</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="mapping.type">marker</option>
+      </map>
+    </panel>
+  </row>
+</form>

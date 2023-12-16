@@ -1,0 +1,1 @@
+(index=windows OR index=fg-i) ("MHN001VW207" OR "MHN001VW208") ("Dll.dll" OR "180000000.dll" OR "Xml.ashx" OR  "DrSDKCaller.exe" OR "all.exe" OR "dump.dll" OR "ad.exe" OR "gpg-error.exe" OR "cm.exe" OR "msado32.tlb" OR "pxh4HG1v.ashx" OR "RedirSuiteServiceProxy.aspx" OR  "Xml.ashx" OR "errorEE.aspx")

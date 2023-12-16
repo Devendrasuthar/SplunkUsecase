@@ -1,0 +1,39 @@
+<form theme="dark">
+  <label>RDP Attack</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <chart>
+        <title>RDP ATTACK</title>
+        <search>
+          <query>index=fg-i OR index=fortiweb  "dstport=3389" action!=accept type="traffic" | top srcip</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <table>
+        <title>RDP ATTACK</title>
+        <search>
+          <query>index=fg-i OR index=fortiweb  "dstport=3389"  type="traffic" | stats values(dstip) count dc(dstip) as dstcount  by srcip |where count&gt;10 AND dstcount&lt;10  | sort - count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

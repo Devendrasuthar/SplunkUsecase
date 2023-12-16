@@ -1,0 +1,3 @@
+  <title>Qbot  Malware Regsvr32.exe-Detects the suspicious regsvr32 Explorer  child process</title>
+    
+index=windows  "regsvr32.exe" SourceName="Microsoft-Windows-Sysmon" SourceImage="*regsvr32.exe" TargetImage="*Explorer.exe" |table ComputerName TargetUser SourceUser SourceImage TargetImage

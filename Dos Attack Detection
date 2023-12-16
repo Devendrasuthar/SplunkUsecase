@@ -1,0 +1,9 @@
+index=Firewall  
+|bin _time span=5m
+|fields src_port,src,dest,action
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time 
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  dest_count    |sort -count

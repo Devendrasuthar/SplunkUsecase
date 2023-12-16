@@ -1,0 +1,219 @@
+<dashboard version="1.1" theme="dark">
+  <label>Exchange Zero Day Attack</label>
+  <description>Chopper web shell &amp; Suspicious files in Exchange directories ,hunt for suspicious files in Exchange directories:</description>
+  <row>
+    <panel>
+      <title>Chopper web shell &amp; Suspicious files in Exchange directories</title>
+      <event>
+        <search>
+          <query>(index=iis OR index=fg-i OR index=fortiweb OR index=windows)   ("Exchange Server" "V15" "HttpProxy" "FrontEnd" ParentImage="C:\\Windows\\System32\\inetsrv\\w3wp.exe" OR Image="C:\\Windows\\System32\\inetsrv\\w3wp.exe" ) OR ("w3wp.exe" "echo")</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="list.drilldown">none</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="rowNumbers">0</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.sortDirection">asc</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Create zip rar 7z in ProgramData in Exchange Servers</title>
+      <event>
+        <search>
+          <query>( index=windows) EventCode=11 ("zip" OR "rar" OR "7z") "ProgramData" MHN001VW207 OR MHN001VW208</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="list.drilldown">none</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">0</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.sortDirection">asc</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Powershell.exe- New-Object System.Net.Sockets.TCPClient</title>
+      <event>
+        <search>
+          <query>index=windows OR index=iis OR index=fortiweb OR index=fg-i  "powershell.exe" "New-Object System.Net.Sockets.TCPClient"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="list.drilldown">none</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">0</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.sortDirection">asc</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Invoke PowerShellTCP</title>
+      <event>
+        <search>
+          <query>index="windows"  EventCode=4104 Message="*Invoke-PowerShellTCP*"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="list.drilldown">none</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">0</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.sortDirection">asc</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>"powershell.exe"  "System.Net.Sockets.TCPClient"</title>
+      <event>
+        <search>
+          <query>index="windows"  EventCode=4688 Creator_Process_Name="powershell.exe" "System.Net.Sockets.TCPClient"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="list.drilldown">none</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">0</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.sortDirection">asc</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>powercat</title>
+      <event>
+        <search>
+          <query>index="windows" sourcetype="WinEventLog" source="WinEventLog:Security" EventCode=4104 Message="*powercat*"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="list.drilldown">none</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">0</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.sortDirection">asc</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Shell Upload With Object Name=php-jsp-js-aspx-asmx-cfm-shtml AND Process_Name=umworkerprocess.exe ORUMService.exe</title>
+      <event>
+        <search>
+          <query>index=windows sourcetype=WinEventLog source="WinEventLog:Security" EventCode=4663 Object_Type="File" (Object_Name="*.php" OR Object_Name="*.jsp" OR Object_Name="*.js" OR Object_Name="*.aspx" OR Object_Name="*.asmx" OR Object_Name="*.cfm" OR Object_Name="*.shtml") (Process_Name="*umworkerprocess.exe*" OR Process_Name="*UMService.exe*")</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="list.drilldown">none</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">0</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.sortDirection">asc</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>CreatorProcessName=umworkerprocess.exe-UMService.exe</title>
+      <event>
+        <search>
+          <query>index=windows sourcetype="WinEventLog" source="WinEventLog:Security" EventCode=4688 (Creator_Process_Name="*umworkerprocess.exe*" OR Creator_Process_Name="*UMService.exe*") NOT New_Process_Name="*UMWorkerProcess.exe*"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="list.drilldown">none</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">0</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.sortDirection">asc</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Create zip,rar,7z in ProgramData</title>
+      <event>
+        <search>
+          <query>index=windows (sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" OR source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational") EventCode=11 (TargetFilename="C:\\ProgramData\\*.rar" OR TargetFilename="C:\\ProgramData\\*.zip" OR TargetFilename="C:\\ProgramData\\*.7z")</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="list.drilldown">none</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">0</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.sortDirection">asc</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+      </event>
+    </panel>
+  </row>
+</dashboard>

@@ -1,0 +1,26 @@
+<form theme="dark">
+  <title>Path The hash Attack</title>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>Path The hash Attack</title>
+        <search>
+          <query>index=windows EventCode=4624 (Logon_Type=3 Key_Length=0 Logon_Process=NtLmSsp Security_ID=S-1-0-0 NOT Account_Domain=MIS  NOT Account_Domain=MAINTENANCE NOT Account_Domain=MAHANAIR NOT Account_Domain=KERMAN NOT Account_Domain=MAHAN NOT Account_Domain=SKYPORTS NOT Account_Domain=IKA NOT Account_Name="ANONYMOUS LOGON" ) OR (logon_process=seclogo Logon_Type=9)</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

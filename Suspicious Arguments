@@ -1,0 +1,1 @@
+index=windows sourcetype = WinEventLog:Microsoft-Windows-Sysmon/Operational EventCode=1 (CommandLine="* -R * -pw*" OR CommandLine="* -pw * *@*" OR CommandLine="*sekurlsa*" OR CommandLine="* -hp *" OR CommandLine="* a *")

@@ -1,0 +1,799 @@
+<form theme="dark">
+  <label>DDOS Attack</label>
+  <!-- <row>
+    <panel>
+      <table>
+        <title>DDOS Attack</title>
+        <search>
+          <query>index=fg-i 
+|bin _time span=5m
+|fields src_port,dest,src
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg src dest |sort -count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>-->
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <chart>
+        <title>Dos policytype="DoS-policy" attack="tcp_port_scan"</title>
+        <search>
+          <query>index=fg-i policytype="DoS-policy" attack="tcp_port_scan" OR
+attack="tcp_port_scan" NOT"5.160.223.250" NOT"5.160.223.254"  | top srccountry </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Dos policytype="DoS-policy" top attack</title>
+        <search>
+          <query>index=fg-i policytype="DoS-policy"  NOT"5.160.223.250" NOT"5.160.223.254"  | top attack </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Dos policytype="DoS-policy" top msg</title>
+        <search>
+          <query>index=fg-i policytype="DoS-policy"  NOT"5.160.223.250" NOT"5.160.223.254"  | top msg </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>DOS uld-staging</title>
+        <search>
+          <query>index=fg-i  "5.160.223.108" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor &gt; 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count src_port dest_count src,dest |sort -count |where count&gt;200</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>DDOS uld-staging</title>
+        <search>
+          <query>index=fg-i  "5.160.223.108" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor &gt; 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count src_port dest_count |sort -count |where count&gt;200</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>DOS Attack</title>
+        <search>
+          <query>index=fg-i dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,dest,src
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor &gt; 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg src dest count |sort -count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>DDOS Attack From FortiGate Logs</title>
+        <search>
+          <query>
+            
+            index=fg-i policytype="DoS-policy" attack="tcp_port_scan" OR
+attack="tcp_port_scan" NOT"5.160.223.250" NOT"5.160.223.254"| table srcintf attack msg  srcip dstip  level service  severity srccountry
+app
+dest
+dest_port
+service
+src_translated_port
+srccountry
+crlevel
+action
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>DDOS Attack  From FortiGate Logs</title>
+        <search>
+          <query>
+            
+          index=fg-i policytype="DoS-policy"  NOT"5.160.223.250" NOT"5.160.223.254"| table srcintf attack msg  srcip dstip  level service  severity srccountry
+app
+dest
+dest_port
+service
+src_translated_port
+srccountry
+crlevel
+action
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+    <row>
+    <panel>
+      <table>
+        <title>DDOS Attack  Avia_Mail_Public</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.222.71" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+      <row>
+    <panel>
+      <table>
+        <title>DDOS Attack  SMG02,secondarymail.mahan.aero</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.222.87" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+        <row>
+    <panel>
+      <table>
+        <title>DDOS Attack  5.160.222.73</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.222.73" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+          <row>
+    <panel>
+      <table>
+        <title>DDOS Attack  Avia_FTPS_Public</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.222.70" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+  
+            <row>
+    <panel>
+      <table>
+        <title>DOS ULD.mahan.aero_Publish</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.85" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+ 
+  
+              <row>
+    <panel>
+      <table>
+        <title>DOS  5.160.223.75</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.75" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+                <row>
+    <panel>
+      <table>
+        <title>DOS  OpenConnect</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.110" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+                  <row>
+    <panel>
+      <table>
+        <title>DOS  NS1_Server_Public</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.51" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  NS2_Server_Public</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.52" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS   5.160.223.245</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.245" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  QA.Mahan.Aero</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.112" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  mahanandmiles.com</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.89" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  login.mahan.aero_publish</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.73" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  5.160.223.246</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.246" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  MiColab</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.111" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  5.160.223.253</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.253" OR "5.160.223.250" OR "5.160.223.251" OR "5.160.223.249" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  skywatch.mahan.aero,mx.mahan.aero</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.70" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS Saman_VPN</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.109" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  skypad.mahan.aero</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.72" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  SMG01,primarymail.mahan.aero</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.87" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  SotEther</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.106" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  Accounts_Publish</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.79" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+                    <row>
+    <panel>
+      <table>
+        <title>DOS  Content.mahan.aero</title>
+        <search>
+          <query>
+            
+    index=fg-i  "5.160.223.86" dest!="4.2.2.4" src!="172.17.*" src!="172.18.*" dest!="172.18.*" src!="172.31.*" src!="192.168.*" src!="5.160.223.250" src!="5.160.223.254" dest!="8.8.8.8" src!="0.0.0.0" dest!="255.255.255.255"
+|bin _time span=5m
+|fields src_port,src,dest
+|stats count,dc(src) as src_count , dc(dest) as dest_count by src_port,_time,src,dest
+|eval First_Factor=src_count/dest_count 
+|eval Final_Factor=First_Factor+count 
+|search Final_Factor > 10
+|eval msg="Reflected DDoS Attack has been detected. "."count:".count."   from ".src_count. " distict sources with same src_port:".src_port." on ". dest_count. " servers"
+|fields msg count  src_port,src,dest   |sort -count
+            
+          </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+</form>

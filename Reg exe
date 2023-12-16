@@ -1,0 +1,27 @@
+<form theme="dark">
+  <label>Reg Exe</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Abnoraml Reg Exe</title>
+      <table>
+        <search>
+          <query>index=windows 	 reg.exe NOT"kavfswp.exe" NOT"silcollector" NOT"softwareinventorylogging" EventCode=13</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

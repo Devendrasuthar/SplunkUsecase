@@ -1,0 +1,85 @@
+<form theme="dark">
+  <label>wsmprovhost.exe</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Rare wsmprovhost.exe   SignatureStatus!=Valid Signed!=true</title>
+      <table>
+        <search>
+          <query>index=windows wsmprovhost.exe  NOT"System.Management.Automation.ni.dll" SignatureStatus!=Valid Signed!=true NOT"kavfswp.exe"  NOT"C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\clrjit.dll" NOT"PSScriptPolicyTest" NOT"C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\clr.dll" NOT"C:\\Windows\\Microsoft.NET\\Framework64" NOT"C:\\Windows\\System32\\mscoree.dll"|table Image EventCode User Account_Name CommandLine  Message ImageLoaded</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">100</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Rare wsmprovhost.exe User="NT AUTHORITY\\SYSTEM"  Image!="svchost"</title>
+      <table>
+        <search>
+          <query>index=windows wsmprovhost.exe   NOT"kavfswp.exe"  NOT"C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\clrjit.dll" NOT"PSScriptPolicyTest" NOT"C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\clr.dll" NOT"C:\\Windows\\Microsoft.NET\\Framework64" NOT"C:\\Windows\\System32\\mscoree.dll" User="NT AUTHORITY\\SYSTEM"  Image!="C:\\Windows\\system32\\svchost.exe"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">100</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>wsmprovhost.exe</title>
+      <table>
+        <search>
+          <query>index=windows wsmprovhost.exe (EventCode=12 OR
+EventCode=7 OR
+EventCode=4656 OR
+EventCode=13 OR
+EventCode=4688 OR
+EventCode=1 OR
+EventCode=17 OR
+EventCode=3 OR
+EventCode=22 OR
+EventCode=10 OR
+EventCode=11 OR
+EventCode=4799 )NOT"kavfswp.exe"  NOT"C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\clrjit.dll" NOT"PSScriptPolicyTest" NOT"C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\clr.dll" NOT"C:\\Windows\\Microsoft.NET\\Framework64" NOT"C:\\Windows\\System32\\mscoree.dll"|table Image EventCode User Account_Name CommandLine  Message ImageLoaded</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">100</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>

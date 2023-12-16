@@ -1,0 +1,26 @@
+<form theme="dark">
+  <label>ژreation new user,ٍlevated to an admins</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title> creation of a new user, followed by permissions being elevated to an admin level</title>
+        <search>
+          <query>index=windows EventCode=4720 OR (EventCode=4732 Administrators) | transaction Security_ID maxspan=180m | search EventCode=4720 EventCode=4732
+| table _time, EventCode, Security_ID, SamAccountName</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    </row>
+    </form>

@@ -1,0 +1,26 @@
+<form theme="dark">
+  <label>FFuf SCAN</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>FFuf SCAN</title>
+        <search>
+          <query>index=* "Fuzz+Faster+U+Fool" | table  X_Forwarded_For c_ip cs_User_Agent s_ip s_port sc_status </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

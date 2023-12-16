@@ -1,0 +1,33 @@
+<form theme="dark">
+  <label>LSASS Detection Malicious</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  
+  <row>
+    <panel>
+      <title>Create Remote Thread into LSASS</title>
+      <table>
+        <search>
+       <query>index="windows" sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=8 TargetImage=*lsass.exe | stats count min(_time) as firstTime max(_time) as lastTime by Computer, EventCode, TargetImage, TargetProcessId | rename Computer as dest | table StartModule SourceImage ComputerName TargetImage SourceUser TargetUser</query>
+          <earliest>-150d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">100</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>

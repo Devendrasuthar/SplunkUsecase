@@ -1,0 +1,64 @@
+<form theme="dark">
+  <label>Create or Delete MOF File use in WMI attack</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>Malicious Create or Delete MOF File use in WMI attack</title>
+        <search>
+          <query>index=windows ".mof"  NOT"C:\\Windows\\System32\\wbem" NOT"WinSxS" NOT"kavfswp.exe" NOT"Microsoft.NET" Process_Name!="*MsMpEng.exe" | table EventCode
+ComputerName
+Account_Name
+Account_Domain
+Process_Name
+Object_Name
+</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+      <panel>
+      <chart>
+        <title>Create or Delete MOF File use in WMI attack</title>
+        <search>
+          <query>index=windows ".mof"  NOT"C:\\Windows\\System32\\wbem" NOT"WinSxS" NOT"kavfswp.exe" NOT"Microsoft.NET"  | top Process_Name </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Create or Delete MOF File use in WMI attack</title>
+        <search>
+          <query>index=windows ".mof"  NOT"C:\\Windows\\System32\\wbem" NOT"WinSxS" NOT"kavfswp.exe" NOT"Microsoft.NET" | table EventCode
+ComputerName
+Account_Name
+Account_Domain
+Process_Name
+Object_Name
+</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+
+</form>

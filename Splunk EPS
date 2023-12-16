@@ -1,0 +1,28 @@
+<form theme="dark">
+  <label>Splunk EPS</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+       <label>Splunk EPS</label>
+        <search>
+                <query>| tstats count as COUNT where index=* earliest=-7d by _time span=1s
+| stats avg(COUNT) as eps 
+| eval eps=round(eps,2)</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

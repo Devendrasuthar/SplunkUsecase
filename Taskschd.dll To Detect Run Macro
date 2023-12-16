@@ -1,0 +1,8 @@
+    <title>taskschd dll windows log</title>
+        <search>
+          <query>index=windows taskschd.dll NOT"taskhostw.exe" NOT"svchost.exe" sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" |top Image limit=0</query>
+          
+          ------------------
+    <title>taskschd dll Sysmon log</title>
+        <search>
+          <query>index=windows taskschd.dll source="WinEventLog:Security" NOT"taskhostw.exe" NOT"svchost.exe"  |top Process_Name limit=0</query>       

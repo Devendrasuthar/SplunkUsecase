@@ -1,0 +1,67 @@
+  <title>Detects the suspicious commandlines from explorer</title>
+        <search>
+          <query>index=windows SourceName="Microsoft-Windows-Sysmon" "technique_name=User Execution" EventCode=1 NOT"Microsoft.NET" NOT"bin.net" "Explorer.exe"  ("whoami" OR  "whoami /all" OR 
+       "arp -a" OR
+       "ipconfig /all" OR
+       "net view /all" OR
+       "cmd /c set" OR
+       "nslookup -querytype=ALL -timeout=10 _ldap._tcp.dc._msdcs" OR
+       "nltest /domain_trusts /all_trusts" OR
+      "net share" OR
+      "netstat -nao" OR
+       "net localgroup" OR
+       "qwinsta")</query>
+       
+       -------------
+        <title>Detects the suspicious commandlines from explorer</title>
+        <search>
+          <query>index=windows SourceName="Microsoft-Windows-Sysmon" "technique_name=User Execution" EventCode=1 NOT"Microsoft.NET" NOT"bin.net" "Explorer.exe"  ("whoami " OR 
+       "arp" OR
+       "ipconfig" OR
+       "net" OR
+       "cmd" OR
+       "nslookup" OR
+       "nltest" OR
+      "net share" OR
+      "netstat" OR
+       
+       "qwinsta") |table ParentUser
+ParentImage
+ParentCommandLine
+User
+CommandLine
+CurrentDirectory</query>
+
+-----------
+
+ <title>Commandlines from explorer > Product</title>
+        <search>
+          <query>index=windows SourceName="Microsoft-Windows-Sysmon" "technique_name=User Execution" EventCode=1 NOT"Microsoft.NET" NOT"bin.net" "Explorer.exe" | top Product </query>
+          
+          -------------
+          
+           <title>Commandlines from explorer</title>
+        <search>
+          <query>index=windows SourceName="Microsoft-Windows-Sysmon" "technique_name=User Execution" EventCode=1 NOT"Microsoft.NET" NOT"bin.net" "Explorer.exe" | top CommandLine </query>
+         --------
+         <title>Commandlines from explorer > User</title>
+        <search>
+          <query>index=windows SourceName="Microsoft-Windows-Sysmon" "technique_name=User Execution" EventCode=1 NOT"Microsoft.NET" NOT"bin.net" "Explorer.exe" | top User </query>
+        
+        -------------
+        
+         <title>Commandlines from explorer > CurrentDirectory</title>
+        <search>
+          <query>index=windows SourceName="Microsoft-Windows-Sysmon" "technique_name=User Execution" EventCode=1 NOT"Microsoft.NET" NOT"bin.net" "Explorer.exe" | top CurrentDirectory </query>
+       
+       --------------------
+        <title>Detects the suspicious commandlines from explorer</title>
+        <search>
+          <query>index=windows SourceName="Microsoft-Windows-Sysmon" "technique_name=User Execution" EventCode=1 NOT"Microsoft.NET" NOT"bin.net" "Explorer.exe"  
+       |table ParentUser
+ParentImage
+ParentCommandLine
+User
+CommandLine
+CurrentDirectory
+       </query>

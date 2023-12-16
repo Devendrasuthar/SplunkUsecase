@@ -1,0 +1,72 @@
+<form theme="dark">
+  <label>SSH Outbound To Inbound</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>SSH Outbound To Inbound Action Accept</title>
+      <table>
+        <search>
+          <query>index=fg-i   NOT"0.0.0.0"	NOT"255.255.255.255" dest_port!=443  app="Console Management(SSH)" bytes!=0 NOT"172.18.81.42" src_ip!="172.*"  action!="blocked"  action!=teardown
+| table _time user app bytes* src_ip dest_ip dest_port action</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>SSH Outbound To Inbound Action ALL</title>
+      <chart>
+        <search>
+          <query>index=fg-i   NOT"0.0.0.0"	NOT"255.255.255.255" dest_port!=443  app="Console Management(SSH)" bytes!=0 NOT"172.18.81.42" src_ip!="172.*"  
+| top src_ip</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    
+        <panel>
+      <title>SSH Succeccfull </title>
+      <chart>
+        <search>
+          <query>index=fg-i   NOT"0.0.0.0"	NOT"255.255.255.255" dest_port!=443  app="Console Management(SSH)" bytes!=0  
+| top src_ip</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    
+  </row>
+  <row>
+    <panel>
+      <title>SSH  ALL</title>
+      <table>
+        <search>
+          <query>index=fg-i   NOT"0.0.0.0"	NOT"255.255.255.255" dest_port!=443  app="Console Management(SSH)" 
+| table _time user app bytes* src_ip dest_ip dest_port action</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

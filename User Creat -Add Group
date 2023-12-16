@@ -1,0 +1,30 @@
+   <table>
+        <title>Users Created In Active Directory</title>
+        <search>
+          <query>index="adaudit" "user" "account" "Users Created" NOT"A Kerberos authentication ticket (TGT) was requested." NOT"Kerberos pre-authentication failed." NOT"A scheduled task was updated." NOT"A user account was unlocked." | table REPORT_PROFILE,,CALLER_USER_NAME,Category,SOURCE,,ACCOUNT_DOMAIN,ACCOUNT_NAME,EXTRA_COLUMN5,FORMAT_MESSAGE</query>
+          
+          -------------
+                  <title>Add User To Global Group 4728</title>
+        <search>
+          <query>index=windows  | search  (EventCode=4728 ) |rex field=Account_Name "(?&lt;user&gt;([\w]+\-+\w+)|(\d+)|([\w+]+)|([\w]+\.+\w+))"  | table  EventCode   Group_Name Account_Name   Account_Domain user</query>
+          
+          -------------
+          
+                  <title>Add user Administrator  local group. EventCode=4732</title>
+        <search>
+          <query>index=windows | search  (EventCode=4732 Administrators) | table _time EventCode Security_ID Group_Name Account_Name Message</query>
+          
+          ------------
+          
+             <title>Add user Administrator  To local group Exclusive of  Computer Account- EventCode=4732</title>
+        <search>
+          <query>index=windows | search  (EventCode=4732 Administrators) Account_Name!="*$" | table _time EventCode Security_ID Group_Name Account_Name Message</query>
+          
+          
+          ------------
+                 <title>User Create  EventCode=4720</title>
+        <search>
+          <query>index=windows | search EventCode=4720  NOT"HealthMailbox"  NOT"CLIUSR"| table     Account_Name  Account_Domain Account_Name SAM_Account_Name Display_Name User_Principal_Name</query>
+          
+          ------------
+          

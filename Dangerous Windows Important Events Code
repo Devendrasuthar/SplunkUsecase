@@ -1,0 +1,47 @@
+<form theme="dark">
+<label>Windows Important Events Code</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  
+      <row>
+    <panel>
+      <table>
+       <title>Dangerous Windows Important Events Code</title>
+        <search>
+                 <query> index=windows Account_Name!="*$" EventCode=4618 OR EventCode=4649 OR EventCode=4719 OR EventCode=4765 OR EventCode=4766 OR EventCode=4794 OR EventCode=4897 OR EventCode=4964 OR EventCode=5124 Subcategory!="MPSSVC Rule-Level Policy Change"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <table>
+       <title>Windows Important Events Code</title>
+        <search>
+                 <query>index=windows EventCode=4618 OR EventCode=4649 OR EventCode=4719 OR EventCode=4765 OR EventCode=4766 OR EventCode=4794 OR EventCode=4897 OR EventCode=4964 OR EventCode=5124 Subcategory!="MPSSVC Rule-Level Policy Change"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  
+
+  
+
+  
+</form>

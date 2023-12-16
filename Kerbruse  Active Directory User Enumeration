@@ -1,0 +1,88 @@
+<form version="1.1" theme="dark">
+  <label>Kerbruse  Active Directory User Enumeration</label>
+  <description>Result_Code :0x17	Password has expired	The user’s password has expired.
+
+      0x6	-Client not found in Kerberos database- Bad user name, or new computer/user account has not replicated to DC yet
+    
+      0x12 -Account disabled, expired, locked out, logon hours.&lt;/label&gt;
+    0xC	-Workstation restriction, or Authentication Policy</description>
+  <fieldset submitButton="false">
+    <input type="time" token="field2">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>EventCode=4768 Result_Code=0x6 Account_Name!="*$"</title>
+      <table>
+        <search>
+          <query>index=windows  EventCode=4768 Result_Code=0x6 Account_Name!="*$" 
+| bucket _time span=5m |stats  values(ComputerName) values(Result_Code) dc(ComputerName) AS ComputerCount values(Account_Name) count  values(Supplied_Realm_Name) values(Ticket_Options) earliest(_time) AS FirstSeen latest(_time) AS LastSeen by  Account_Name
+| rename values(*) AS *
+| convert ctime(FirstSeen) ctime(LastSeen) |sort -AccountCount</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">7</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>EventCode=4768 Result_Code!="0x0"</title>
+        <search>
+          <query>index=windows  EventCode=4768 Result_Code!="0x0"
+| bucket _time span=5m
+| stats values(ComputerName) values(Result_Code) dc(ComputerName) AS ComputerCount values(Account_Name) dc(Account_Name) AS AccountCount values(Supplied_Realm_Name) values(Ticket_Options) earliest(_time) AS FirstSeen latest(_time) AS LastSeen by Client_Address _time
+| rename values(*) AS *
+| convert ctime(FirstSeen) ctime(LastSeen) |sort -AccountCount -ComputerCount</query>
+          <earliest>-7d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">7</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>EventCode=4771</title>
+        <search>
+          <query>index=windows  EventCode=4771
+| bucket _time span=5m
+| stats values(ComputerName) values(Failure_Code) dc(ComputerName) AS ComputerCount values(Account_Name) dc(Account_Name) AS AccountCount values(Supplied_Realm_Name) values(Ticket_Options) earliest(_time) AS FirstSeen latest(_time) AS LastSeen by Client_Address _time
+| rename values(*) AS *
+| convert ctime(FirstSeen) ctime(LastSeen) |sort -AccountCount -ComputerCount</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">7</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+      </table>
+    </panel>
+  </row>
+</form>

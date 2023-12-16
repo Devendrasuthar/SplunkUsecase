@@ -1,0 +1,43 @@
+<form theme="dark">
+   <label>Detecting Tampering of Windows Defender Command Prompt</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  
+
+  <row>
+    <panel>
+      <table>
+         <title>Detecting Tampering of Windows Defender Command Prompt</title>
+        <search>
+              <query>index="windows" sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1 "sc.exe" | regex CommandLine="^sc\s*(config|stop|query)\sWinDefend$$"  |table Image CommandLine ParentImage  ParentCommandLine </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    </row>
+    
+      <row>
+    <panel>
+      <table>
+         <title>SC Commands</title>
+        <search>
+              <query>index="windows" sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1 "sc.exe"  |table Image CommandLine ParentImage  ParentCommandLine </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    </row>
+    </form>

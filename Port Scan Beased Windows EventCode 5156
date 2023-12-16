@@ -1,0 +1,3 @@
+index=windows EventCode=5156 Direction=Inbound Source_Address!="127.0.0.1" Source_Address!="::1" Source_Address!="255.255.255.255" Destination_Address!="255.255.255.255" Destination_Address!="0.0.0.0"  Source_Address!="0.0.0.0"   | bin   _time span=1s| stats dc(Destination_Port) AS num_dest_port dc(Destination_Address) AS num_dest_ip BY Source_Address
+
+| where num_dest_port > 11 OR num_dest_ip > 11

@@ -1,0 +1,81 @@
+<form theme="dark">
+  <label>Fail Login Event Code 4625</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>(Logon_Type=4 OR Logon_Type=5 OR Logon_Type=10 ) EventCode=4625</title>
+        <search>
+          <query>index=windows  (Logon_Type=4 OR Logon_Type=5 OR Logon_Type=10 ) EventCode=4625  | stats count by  Logon_Type Security_ID Account_Name  user Failure_Reason signature  Caller_Process_Name Logon_Process Workstation_Name |sort -count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>EventCode=4625 "Unknown user name or bad password" Account_Name!="*$"</title>
+        <search>
+          <query>index=windows  EventCode=4625 "Unknown user name or bad password" Account_Name!="*$"  | stats count by  Logon_Type Security_ID Account_Name  user Failure_Reason signature  Caller_Process_Name Logon_Process Workstation_Name |sort -count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Fail login Admin EventCode=4625  "*admin"</title>
+        <search>
+          <query>index=windows   EventCode=4625  NOT"Crowd-Admin" "*admin*" OR "Administrator"| stats count by  Logon_Type Security_ID Account_Name  user Failure_Reason signature  Caller_Process_Name Logon_Process Workstation_Name |sort -count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>EventCode=4625 "Account currently disabled."</title>
+        <search>
+          <query>index=windows EventCode=4625 "Account currently disabled."   | stats count by  Logon_Type Security_ID Account_Name  user Failure_Reason signature  Caller_Process_Name Logon_Process Workstation_Name | sort - count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>EventCode=4625 Account locked out</title>
+        <search>
+          <query>index=windows  EventCode=4625 "Account locked out"  | stats count by  Logon_Type Security_ID Account_Name  user Failure_Reason signature  Caller_Process_Name Logon_Process Workstation_Name</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

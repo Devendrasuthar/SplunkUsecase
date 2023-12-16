@@ -1,0 +1,8 @@
+Malicious Create or Delete MOF File use in WMI attack
+
+index=windows ".mof"  NOT"C:\\Windows\\System32\\wbem" NOT"WinSxS" NOT"kavfswp.exe" NOT"Microsoft.NET" Process_Name!="*MsMpEng.exe" | table EventCode
+ComputerName
+Account_Name
+Account_Domain
+Process_Name
+Object_Name

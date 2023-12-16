@@ -1,0 +1,132 @@
+<form theme="dark">
+  <label>Scheduled Task</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  
+ 
+  
+  
+   <row>
+    <panel>
+      <table>
+        <title>Scheduled Task enabled/disabled</title>
+        <search>
+          <query> index=windows EventCode=4700 OR EventCode=4701 NOT"\\Microsoft\\Windows\\SoftwareProtectionPlatform" | table  ComputerName Account_Name EventCode Task_Name</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <table>
+        <title>Scheduled Task Rare</title>
+        <search>
+          <query>index="windows" EventCode=4698 OR EventCode=4699 OR EventCode=4700 OR EventCode=4701 OR EventCode=4702 OR EventCode=140 OR EventCode=141  OR EventCode=106 Task_Name="*" subject="*" Message=* NOT"SoftwareProtectionPlatform" NOT"UpdateOrchestrator" NOT"User_Feed_Synchronization" NOT".NET Framework" NOT"QueueReporting" NOT"WindowsUpdate" NOT"Device Information" NOT"Regular Maintenance" NOT"Application Experience" NOT"ServerCeipAssistant" NOT"Data Integrity Scan"
+|rex field=_raw "&lt;Command&gt;(?&lt;command&gt;[^\&lt;]*)" | table Account_Name,EventCode,ComputerName,Task_Name,signature,command</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+    <row>
+    <panel>
+      <table>
+        <title> Rare Scheduled Create Delete transaction Startswith=(EventCode=4698)   endswith=(EventCode=4699)</title>
+        <search>
+          <query>index=windows   EventCode=4699 OR EventCode=4698  ComputerName=*  EventCode=* NOT"User_Feed_Synchronization"
+
+ | transaction ComputerName  (startswith=(EventCode=4698)   endswith=(EventCode=4699) )  maxspan=10s maxpause=5s | table EventCode  ComputerName Account_Name Task_Name</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Scheduled Create Delete transaction Startswith=(EventCode=4698)   endswith=(EventCode=4699)</title>
+        <search>
+          <query>index=windows   EventCode=4699 OR EventCode=4698  ComputerName=*  EventCode=* 
+
+ | transaction ComputerName  (startswith=(EventCode=4698)   endswith=(EventCode=4699) )  maxspan=10s maxpause=5s | table EventCode  ComputerName Account_Name Task_Name</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Scheduled Task by User With Feed Sync</title>
+        <search>
+          <query>index="adaudit" "scheduled task"   | rename CALLER_USER_NAME as user, REPORT_PROFILE as action, REMARKS as msg, FORMAT_MESSAGE as change, CN_MEMBERNAME as "member name" | table user, action, msg, change,SOURCE,APPLICATION_NAME |dedup change |search user!=MHN* |search user!=OAL*</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Scheduled Task New in 7Days Not in Last 180 Days</title>
+        <search>
+          <query>index="adaudit" "scheduled task"  earliest=-7d@h latest=@d  | rename CALLER_USER_NAME as user, REPORT_PROFILE as action, REMARKS as msg, FORMAT_MESSAGE as change, CN_MEMBERNAME as "member name" | table user, action, msg, change,SOURCE,APPLICATION_NAME |dedup APPLICATION_NAME | search NOT[search index="adaudit" "scheduled task" earliest=-180d@d latest=-7d@d   | rename CALLER_USER_NAME as user, REPORT_PROFILE as action, REMARKS as msg, FORMAT_MESSAGE as change, CN_MEMBERNAME as "member name" | table user, action, msg, change,SOURCE,APPLICATION_NAME |dedup APPLICATION_NAME]</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Scheduled Task Annomaly  by User</title>
+        <search>
+          <query>index="adaudit" "scheduled task" NOT"User_Feed_Synchronization"  | rename CALLER_USER_NAME as user, REPORT_PROFILE as action, REMARKS as msg, FORMAT_MESSAGE as change, CN_MEMBERNAME as "member name" | table user, action, msg, change,SOURCE,APPLICATION_NAME |dedup change |search user!=MHN* |search user!=OAL*</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>All Scheduled Task</title>
+        <search>
+          <query>index="adaudit" "scheduled task"   | rename CALLER_USER_NAME as user, REPORT_PROFILE as action, REMARKS as msg, FORMAT_MESSAGE as change, CN_MEMBERNAME as "member name" | table user, action, msg, change,SOURCE,APPLICATION_NAME |dedup change </query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</form>

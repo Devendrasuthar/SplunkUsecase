@@ -1,0 +1,41 @@
+<form theme="dark">
+   <label>Common Windows Process Masquerading</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  
+
+  <row>
+    <panel>
+      <table>
+         <title>Common Windows Process Masquerading</title>
+        <search>
+               <query>index=windows sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" NOT"wermgr.exe" NOT"WerFault.exe" NOT"HKLM" NOT"poqexec.exe"
+( svchost.exe AND (NOT"C:\\Windows\\system32\\svchost.exe") (NOT"C:\\Windows\\sysWow64\\svchost.exe")  (NOT"C:\Windows\System32\svchost.exe")) 
+OR (smss.exe NOT"C:\\Windows\\System32\\smss.exe")
+OR (wininit.exe  NOT"C:\\Windows\\System32\\wininit.exe")
+OR (taskhost.exe  NOT"C:\\Windows\\System32\\taskhost.exe")
+OR (lsass.exe  NOT"C:\\Windows\\System32\\lsass.exe")
+OR (winlogon.exe  NOT"C:\\Windows\\System32\\winlogon.exe")
+OR (csrss.exe  NOT"C:\\Windows\\System32\\csrss.exe")
+OR (services.exe  NOT"C:\\Windows\\System32\\services.exe")
+OR (lsm.exe  NOT"C:\\Windows\\System32\\lsm.exe")
+OR (explorer.exe  NOT"C:\\Windows\\explorer.exe") | table Image
+TargetFilename
+EventCode
+ComputerName</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    </row>
+    </form>

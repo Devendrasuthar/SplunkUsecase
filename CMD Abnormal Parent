@@ -1,0 +1,14 @@
+    <query>index=windows (sourcetype=WinEventLog:Microsoft-Windows-Sysmon/Operational OR sourcetype=wineventlog) (EventCode=4688 OR EventCode=1) "cmd.exe" ( "lsass.exe" OR
+"csrss.exe" OR "epad.exe" OR
+"regsvr32.exe" OR "dllhost.exe" OR
+"LogonUI.exe" OR "wermgr.exe" OR
+"spoolsv.exe" OR "jucheck.exe" OR
+"jusched.exe" OR "ctfmon.exe" OR
+"taskhostw.exe" OR "GoogleUpdate.exe" OR
+"sppsvc.exe" OR "sihost.exe" OR
+"slui.exe" OR "SIHClient.exe" OR
+"SearchIndexer.exe" OR
+"SearchProtocolHost.exe" OR
+"FlashPlayerUpdateService.exe" OR
+"WerFault.exe" OR "WUDFHost.exe" OR
+"unsecapp.exe" OR "wlanext.exe")</query>

@@ -1,0 +1,122 @@
+<form theme="dark">
+  <label>WMI Detection</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <chart>
+        <title>Rare WMI User</title>
+        <search>
+          <query>index=windows "wmic" NOT"Koorosh_o" NOT"AC-039"  Account_Name!="*$"| top Account_Name limit=0
+</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Rare WMI Command</title>
+        <search>
+          <query>index=windows "wmic" SourceName=Microsoft-Windows-Sysmon "process" "call" "create" NOT"\\oal001vw001.skyports.aero\\c$\\iSource\\Office_Active.cmd" | top 
+
+
+ParentCommandLine
+
+</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>WMI</title>
+        <search>
+          <query>index=windows "wmic" SourceName=Microsoft-Windows-Sysmon "process" "call" "create" | top 
+
+CommandLine 
+</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>WMI</title>
+        <search>
+          <query>index=windows "wmic" SourceName=Microsoft-Windows-Sysmon "process" "call" "create" | top 
+
+ParentCommandLine 
+</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>WMI NOT"Oracle" NOT"java.exe" NOT"conhost.exe"</title>
+        <search>
+          <query>index=windows "wmic" Account_Name!="*$" NOT"Oracle"
+NOT"java.exe"
+NOT"conhost.exe" | top Creator_Process_Name</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>WMI</title>
+        <search>
+          <query> index=windows "wmic" Account_Name!="*$"| top Account_Name limit=0</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>WMI</title>
+        <search>
+          <query>index=windows "wmic" SourceName=Microsoft-Windows-Sysmon "process" "call" "create" | table CommandLine
+User
+ParentImage
+ParentCommandLine
+ParentUser</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

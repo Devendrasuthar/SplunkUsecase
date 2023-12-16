@@ -1,0 +1,63 @@
+<form theme="dark">
+  <label>Detecting Brute Force Attacks With Fail Login</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>Brute Force Users</title>
+        <search>
+          <query>index=windows user=* user!=""
+| stats count(eval(action="success")) as successes count(eval(action="failure")) as failures by user, ComputerName
+| where successes&gt;0 AND failures&gt;100</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Fail Login  On Windows</title>
+        <search>
+          <query>index=windows source="WinEventLog:Security" EventCode=4625
+| bin _time span=5m
+| stats count by _time,user,host,src,action
+| where count &gt;= 20</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Fail Login  On Linux</title>
+        <search>
+          <query>index=linux source="/var/log/auth.log" "Failed password"
+| bin _time span=5m
+| stats count by _time,user,host,src,action
+| where count &gt;= 5</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <label>Login Fail Users Over Count 20</label>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

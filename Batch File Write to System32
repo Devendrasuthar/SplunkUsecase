@@ -1,0 +1,29 @@
+<form theme="dark">
+  <label>Batch File Write to System32</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+
+
+  <row>
+    <panel>
+      <table>
+        <title>Attempt To Add Certificate To Untrusted Store</title>
+        <search>
+               <query>| tstats count min(_time) as firstTime max(_time) as lastTime values(Filesystem.dest) as dest values(Filesystem.file_name) as file_name values(Filesystem.user) as user from datamodel=Endpoint.Filesystem by Filesystem.file_path   | rex field=file_name "(?&lt;file_extension&gt;\.[^\.]+)$$" | search file_path=*system32* AND file_extension=.bat</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    </row>
+    </form>
+

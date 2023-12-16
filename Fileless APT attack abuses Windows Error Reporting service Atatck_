@@ -1,0 +1,26 @@
+<form theme="dark">
+<label>Fileless APT attack abuses Windows Error Reporting service Atatck</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+       <title>Chopper web shell &amp; Suspicious files in Exchange directories</title>
+        <search>
+                 <query>index=windows sourcetype="WinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1 ParentImage="C:\\Windows\\System32\\WerFault.exe"  NOT"cofire.exe"  NOT"psr.exe" NOT"VsJITDebugger.exe" NOT"TTTracer.exe" NOT"rundll32.exe" NOT"LogiOptionsMgr.exe"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

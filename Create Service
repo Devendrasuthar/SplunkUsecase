@@ -1,0 +1,207 @@
+<form theme="dark">
+  <label>Service Create</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <chart>
+        <title>Service Create</title>
+        <search>
+          <query>index=windows EventCode=7045 OR EventCode=4697 | stats count by  Service_File_Name</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Service Create</title>
+        <search>
+          <query>index=windows EventCode=7045 OR EventCode=4697 | stats  values(Service_File_Name)</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>Anormal Service Create</title>
+        <search>
+          <query>index=windows EventCode=7045 NOT"Azure DevOps Server Background Job Agent"
+NOT"Azure DevOps Ssh Service"
+NOT"FabulaTech Isolation driver"
+NOT"OracleRemExecServiceV2"
+NOT"Still Serial Digital Camera Driver"
+NOT"VMware Horizon CDR mini-filter driver"
+NOT"VMware Horizon Client"
+NOT"VMware Horizon View Virtual USB"
+NOT"VMware Netlink Supervisor Service"
+NOT"VMware Scanner Redirection Client"
+NOT"VMware Serial Com Redirection Agent Service"
+NOT"VMware Serial Com Redirection Client service"
+NOT"VMware USB Arbitration Service"
+NOT"VMware hcmon"
+NOT"VMware vmwufhid"
+NOT"VeeamVssSupport"
+NOT"vmwenum"
+NOT"vmwflstor"
+NOT"vmwport"| table 
+
+Service_Name
+Service_File_Name
+Service_Type
+Service_Start_Type
+Service_Account Message</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Service Create EventCode=4697  EventCode=7045</title>
+        <search>
+          <query>index=windows EventCode=7045 OR EventCode=4697 | stats  Values(Service_File_Name) Values(Service_Name) Values(Account_Name)</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>EventCode=4624 After Service Create EventCode=4697  EventCode=7045</title>
+        <search>
+          <query>index=windows   EventCode=4697 OR EventCode=7045 OR EventCode=4624 ComputerName=*  EventCode=* 
+
+| transaction Account_Name  (startswith=(EventCode=4697)   endswith=(EventCode=4624) )  maxspan=10s maxpause=5s |table Computer_Name EventCode Service_File_Name Service_name</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Service Create</title>
+        <search>
+          <query>index=windows EventCode=7045 | table ComputerName Service_Name,Service_File_Name,Service_Type,Service_Start_Type,Service_Account,Message</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+ 
+  <row>
+    <panel>
+      <table>
+        <title>Service Create</title>
+        <search>
+          <query> index=windows EventCode=4688 | top Process_Command_Line limit=0</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+  <row>
+    <panel>
+      <table>
+        <title>Service Running</title>
+        <search>
+          <query>index=windows  EventCode=7036 |top Message ComputerName limit=0 showperc=false</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>Service  Running--EventID 4624 followed by 7036</title>
+        <search>
+          <query>index=windows  EventCode=7036 OR EventCode=4624 ComputerName=*  EventCode=* 
+  NOT"C:\\Windows\\System32\\services.exe" 
+ NOT"C:\\Windows\\ADFS\\Microsoft.IdentityServer.ServiceHost.exe"
+ NOT"C:\\Windows\\System32\\inetsrv\\w3wp.exe" 
+NOT"The Microsoft Account Sign-in Assistant service entered the stopped state."
+NOT"The Microsoft Account Sign-in Assistant service entered the running state."
+NOT"The Network Setup Service service entered the stopped state."
+NOT"The Client License Service (ClipSVC) service entered the stopped state."
+NOT"The Client License Service (ClipSVC) service entered the running state."
+NOT"The Network Setup Service service entered the running state."
+NOT"The Windows Modules Installer service entered the stopped state."
+NOT"The Windows Modules Installer service entered the running state."
+NOT"The WMI Performance Adapter service entered the running state."
+NOT"The Background Intelligent Transfer Service service entered the running state."
+NOT"The Windows Update service entered the stopped state."
+NOT"The Windows Update service entered the running state."
+NOT"The AppX Deployment Service (AppXSVC) service entered the stopped state."
+NOT"The Delivery Optimization service entered the stopped state."
+NOT"The AppX Deployment Service (AppXSVC) service entered the running state."
+NOT"The Software Protection service entered the stopped state."
+NOT"The Portable Device Enumerator Service service entered the stopped state."
+NOT"The WMI Performance Adapter service entered the stopped state."
+NOT"The Software Protection service entered the running state."
+NOT"The Microsoft Passport service entered the stopped state."
+NOT"The Delivery Optimization service entered the running state."
+NOT"The Background Intelligent Transfer Service service entered the stopped state."
+NOT"The Network Connectivity Assistant service entered the stopped state."
+NOT"The Remote Registry service entered the stopped state."
+NOT"The Portable Device Enumerator Service service entered the running state."
+NOT"The Microsoft Passport Container service entered the running state."
+NOT"The Capability Access Manager Service service entered the running state."
+NOT"The Windows Update Medic Service service entered the stopped state."
+NOT"The Remote Registry service entered the running state."
+NOT"The Microsoft Storage Spaces SMP service entered the stopped state."
+NOT"The Microsoft Passport service entered the running state."
+NOT"The Capability Access Manager Service service entered the stopped state."
+NOT"The Windows Update Medic Service service entered the running state."
+NOT"The Windows Error Reporting Service service entered the stopped state."
+NOT"The Windows Error Reporting Service service entered the running state."
+ NOT "The Connected Devices Platform User" 
+NOT "The Windows Push Notifications User" 
+NOT"The Microsoft Storage Spaces SMP service entered"
+NOT"The Diagnostic System Host service entered"
+NOT"The Windows Camera Frame Server service entered"
+NOT"The Optimize drives service entered the"
+NOT"The Diagnostic System Host service entered" 
+NOT"The Microsoft Passport Container service entered"
+NOT"The Windows Biometric Service service entered"
+NOT"The Google Update Service (gupdate) service entered"
+NOT"The Device Setup Manager service entered"
+| transaction ComputerName  startswith=(EventCode=7036) endswith=(EventCode=4624) maxspan=5s maxpause=1s |top Message limit=0 showcount=false showperc=false</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

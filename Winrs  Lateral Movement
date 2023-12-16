@@ -1,0 +1,60 @@
+<form theme="dark">
+  <label>Winrs  Lateral Movement</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Winrs winrshost.exe </title>
+      <table>
+        <search>
+          <query>index=windows winrshost.exe NOT"kavfswp.exe" NOT"C:\\Windows\\WinSxS\\amd64_microsoft-windows-winrsplugins_31bf3856ad364e35_10.0.17763.2028_none_63e535f2035dd860\\winrshost.exe" NOT"C:\\Windows\\WinSxS\\wow64_microsoft-windows-winrsplugins_31bf3856ad364e35_10.0.17763.1_none_11510a9ebe317da6\\winrshost.exe" NOT"C:\\Windows\\WinSxS\\wow64_microsoft-windows-winrsplugins_31bf3856ad364e35_10.0.17763.2028_none_6e39e04437be9a5b\\winrshost.exe"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">100</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+
+
+  <row>
+    <panel>
+      <title>Winrs winrshost.exe </title>
+      <table>
+        <search>
+          <query>  index=windows winrshost.exe NOT"kavfswp.exe" |table Account_Name
+ComputerName
+File_Name
+Link_Name
+EventCode
+Object_Name
+msad_action</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">100</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  </form>
